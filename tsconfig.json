@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "strict": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "lib": ["ES2017", "DOM"],
+    "jsx": "react",
+    "baseUrl": "./",
+    "paths": {
+      "@@/*": [".dumi/tmp/*"],
+      "@ihccc/utils": ["src"],
+      "@ihccc/utils/*": ["src/*", "*"]
+    },
+    "outDir": "./"
+  },
+  "include": ["src/**/*", ".dumirc.ts"],
+  "exclude": ["node_modules", "es/**/*", "cjs/**/*", "dist/**/*"]
+}
