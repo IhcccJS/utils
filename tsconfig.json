@@ -13,7 +13,7 @@
       "@ihccc/utils": ["src"],
       "@ihccc/utils/*": ["src/*", "*"]
     },
-    "outDir": "./"
+    "outDir": "dist"
   },
   "include": ["src/**/*", ".dumirc.ts"],
   "exclude": ["node_modules", "es/**/*", "cjs/**/*", "dist/**/*"]

@@ -3,11 +3,9 @@
 
 A JavaScript utility library.
 
-
-<!-- Add badges from somewhere like: [shields.io](https://shields.io/) -->
-
 [![NPM version](https://img.shields.io/npm/v/@ihccc/utils.svg?style=flat)](https://npmjs.org/package/@ihccc/utils)
 [![NPM downloads](http://img.shields.io/npm/dm/@ihccc/utils.svg?style=flat)](https://npmjs.org/package/@ihccc/utils)
+[![dumi](https://img.shields.io/badge/docs%20by-dumi-blue)](https://github.com/umijs/dumi)
 ## Documentation
 
 [Documentation](https://ihccc-utils)

@@ -3,8 +3,8 @@ import { defineConfig } from 'dumi';
 export default defineConfig({
   outputPath: 'dist-utils',
   hash: true,
-  base: '/utils/', // 根路径
-  publicPath: '/utils/', // 静态文件路径
+  base: '/', // 根路径
+  publicPath: '/', // 静态文件路径
   resolve: {
     atomDirs: [{ type: 'util', dir: 'src' }],
   },

@@ -8,18 +8,12 @@ import decimal from './decimal/index';
 import delay from './delay/index';
 import eventEmitter, { EventEmitter } from './event-emitter/index';
 import fileSizeFormatter from './file-size-formatter/index';
+import { forEachPromised, promiseForEach } from './foreach/index';
 import getBase64 from './get-base64/index';
-import {
-  changePageParams,
-  getServerPath,
-  serverPathReplace,
-  setHeader,
-  toFormData,
-} from './interceptor/index';
+import { changePageParams, getServerPath, serverPathReplace, setHeader, toFormData } from './interceptor/index';
 import isLngLat from './is-lng-lat/index';
 import jsonStringFormat from './json-string-format/index';
-import loadCss from './load-css/index';
-import loadScript from './load-script/index';
+import { loadCss, loadScript } from './load-resource/index';
 import mapToTree from './map-to-tree/index';
 import omitFormData from './omit-form-data/index';
 import randomColor from './random-color/index';
@@ -54,6 +48,8 @@ export {
   eventEmitter,
   EventEmitter,
   fileSizeFormatter,
+  forEachPromised,
+  promiseForEach,
   getBase64,
   changePageParams,
   getServerPath,

@@ -1,7 +1,7 @@
 module.exports = {
   pluginSearchDirs: false,
   plugins: [],
-  printWidth: 80,
+  printWidth: 120,
   proseWrap: 'never',
   singleQuote: true,
   trailingComma: 'all',
