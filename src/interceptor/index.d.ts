@@ -1,33 +1,31 @@
 export interface TOptions {
-  [key: string]: any
+  [key: string]: any;
 }
 
 export interface TSetHeaderOptions extends TOptions {
-  withHeader: boolean
+  withHeader: boolean;
 }
 
 export interface TToFormData extends TOptions {
-  withHeader: boolean
+  formData: boolean;
 }
 
 export interface TChangePageParams extends TOptions {
-  useLimit: boolean
+  useLimit: boolean;
 }
 
 export interface TPageParams {
-  pageNumber: number,
-  pageSize: number
+  pageNumber: number;
+  pageSize: number;
 }
 
 export interface TPaths {
-  default: string,
-  [url: string]: string[]
+  default: string;
+  [url: string]: string[];
 }
 
 export interface TTransformed {
-  [url: string]: string
+  [url: string]: string;
 }
 
-export interface TGetServerPath extends TOptions {
-
-}
+export interface TGetServerPath extends TOptions {}

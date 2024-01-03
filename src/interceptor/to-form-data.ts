@@ -25,13 +25,17 @@ export function transformData(data: any): FormData {
  * @param {object} options 如果配置内 formData 字段为 true 就会转换 data 参数为 FormData 格式
  * @returns
  */
-const toFormData = (url: string, options: TToFormData) => {
-  const { formData = false, ...restOptions } = options;
-  if (formData && restOptions.data) {
-    restOptions.data = transformData(restOptions.data);
-  }
+const toFormData = function (globalOptions: any) {
+  const { defaultFormData } = globalOptions;
 
-  return { url, options: restOptions };
+  return (url: string, options: TToFormData) => {
+    const { formData = defaultFormData, ...restOptions } = options;
+    if (formData && restOptions.data) {
+      restOptions.data = transformData(restOptions.data);
+    }
+
+    return { url, options: restOptions };
+  };
 };
 
 export default toFormData;
