@@ -1,5 +1,6 @@
 import delay from '../delay/index';
 import { isArray, isFunction } from '../types/index';
+import random from '../random/index';
 import uuid from '../uuid/index';
 import type {
   TFakeApiConfig,
@@ -256,33 +257,48 @@ class FakeApi {
     return result;
   }
   /**
+   * 随机获取一项
+   */
+  pick() {
+    return random(this._list)
+  }
+  /**
+   * 获取某一项
+   */
+  getItem (params: TObject = {}): TObject {
+    let _list: any[] = [];
+
+    const queryKeys = Object.keys(this.queryType);
+
+    if (queryKeys.length > 0) {
+      let currentQuery: any = null;
+      queryKeys.forEach((key) => {
+        if (params[key] !== void 0) {
+          currentQuery = queryTypeFn[this.queryType[key]];
+          if (isFunction(currentQuery)) {
+            _list = this._list.filter((item) =>
+              currentQuery(item[key] || '', params[key]),
+            );
+          }
+        }
+      });
+    }
+
+    return _list[0];
+  }
+  /**
    * 详情
    */
   async profile(params: TObject = {}): Promise<TResponseData> {
     let result: TResponseData;
     try {
-      let _list: any[] = [];
-
-      const queryKeys = Object.keys(this.queryType);
-
-      if (queryKeys.length > 0) {
-        let currentQuery: any = null;
-        queryKeys.forEach((key) => {
-          if (params[key] !== void 0) {
-            currentQuery = queryTypeFn[this.queryType[key]];
-            if (isFunction(currentQuery)) {
-              _list = this._list.filter((item) =>
-                currentQuery(item[key] || '', params[key]),
-              );
-            }
-          }
-        });
-      }
 
       await delay(rnd(...this.timeout));
 
+      const data = this.getItem(params);
+
       result =
-        _list.length === 0
+        !data
           ? {
               success: false,
               code: '1',
@@ -291,7 +307,7 @@ class FakeApi {
           : {
               success: true,
               code: '0',
-              data: { ..._list[0] },
+              data: { ...data },
               message: '查询成功！',
             };
     } catch (error) {
@@ -312,34 +328,39 @@ class FakeApi {
     return result;
   }
   /**
+   * 获取完整列表
+   */
+  getList (params: TObject = {}): any[] {
+    let _list = [...this._list];
+
+    const queryKeys = Object.keys(this.queryType);
+
+    if (queryKeys.length > 0) {
+      let currentQuery: any = null;
+      queryKeys.forEach((key) => {
+        if (params[key] !== void 0) {
+          currentQuery = queryTypeFn[this.queryType[key]];
+          if (isFunction(currentQuery)) {
+            _list = _list.filter((item) =>
+              currentQuery(item[key] || '', params[key]),
+            );
+          }
+        }
+      });
+    }
+    return _list;
+  }
+  /**
    * 列表
    */
   async list(params: TObject = {}): Promise<TResponseList> {
     let result: TResponseList;
     try {
       await delay(rnd(...this.timeout));
-      let _list = [...this._list];
-
-      const queryKeys = Object.keys(this.queryType);
-
-      if (queryKeys.length > 0) {
-        let currentQuery: any = null;
-        queryKeys.forEach((key) => {
-          if (params[key] !== void 0) {
-            currentQuery = queryTypeFn[this.queryType[key]];
-            if (isFunction(currentQuery)) {
-              _list = _list.filter((item) =>
-                currentQuery(item[key] || '', params[key]),
-              );
-            }
-          }
-        });
-      }
-
       result = {
         success: true,
         code: '0',
-        list: _list,
+        list: this.getList(params),
         message: '查询成功！',
       };
     } catch (error) {

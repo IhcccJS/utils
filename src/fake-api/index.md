@@ -27,6 +27,8 @@ const users = new FakeApi(initData, {
   debug: true,
 });
 
+window.users = users;
+
 function Demo() {
   const [loading, setLoading] = React.useState(false);
   const [data, setData] = React.useState(null);
@@ -178,13 +180,16 @@ new FakeApi(initialData : TObject[], config : TFakeApiConfig);
 
 ## `FakeApi` 实例方法
 
-| 名称    | 参数     | 成功返回值                                                                          | 描述                         |
-| ------- | -------- | ----------------------------------------------------------------------------------- | ---------------------------- |
-| init    | `array`  | `void 0`                                                                            | 该方法将初始化一组数据到列表 |
-| query   | `object` | `{ success: true, code: '0', data: { total: 0, list: [] }, message: '查询成功！' }` | 模拟查询的功能方法           |
-| create  | `object` | `{ success: true, code: '0', message: '新增成功！' }`                               | 模拟新增的功能方法           |
-| update  | `object` | `{ success: true, code: '0', message: '更新成功！' }`                               | 模拟更新的功能方法           |
-| remove  | `object` | `{ success: true, code: '0', message: '删除成功！' }`                               | 模拟删除的功能方法           |
-| profile | `object` | `{ success: true, code: '0', data: {}, message: '查询成功！' }`                     | 模拟详情的功能方法           |
-| list    | `-`      | `{ success: true, code: '0', list: [], message: '查询成功！' }`                     | 模拟列表的功能方法           |
-| request | `object` | `params: object`                                                                    | 参数传什么，就返回什么       |
+| 名称       | 参数     | 成功返回值                                                                          | 描述                         |
+| ---------- | -------- | ----------------------------------------------------------------------------------- | ---------------------------- |
+| init       | `array`  | `void 0`                                                                            | 该方法将初始化一组数据到列表 |
+| query      | `object` | `{ success: true, code: '0', data: { total: 0, list: [] }, message: '查询成功！' }` | 模拟查询的功能方法           |
+| create     | `object` | `{ success: true, code: '0', message: '新增成功！' }`                               | 模拟新增的功能方法           |
+| update     | `object` | `{ success: true, code: '0', message: '更新成功！' }`                               | 模拟更新的功能方法           |
+| remove     | `object` | `{ success: true, code: '0', message: '删除成功！' }`                               | 模拟删除的功能方法           |
+| profile    | `object` | `{ success: true, code: '0', data: {}, message: '查询成功！' }`                     | 模拟详情的功能方法           |
+| list       | `-`      | `{ success: true, code: '0', list: [], message: '查询成功！' }`                     | 模拟列表的功能方法           |
+| request    | `object` | `params: object`                                                                    | 参数传什么，就返回什么       |
+| pick       | `-`      | `data`                                                                              | 随机返回列表元素，同步       |
+| getProfile | `object` | `data`                                                                              | 查询数据某一项，同步         |
+| getList    | `object` | `list`                                                                              | 返回数据列表，同步           |
