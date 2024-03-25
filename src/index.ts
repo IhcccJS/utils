@@ -16,6 +16,7 @@ import jsonStringFormat from './json-string-format/index';
 import { loadCss, loadScript } from './load-resource/index';
 import mapToTree from './map-to-tree/index';
 import omitFormData from './omit-form-data/index';
+import random from './random/index';
 import randomColor from './random-color/index';
 import { getStorage, setStorage, removeStorage } from './storage/index';
 import timeFormat from './time-format/index';
@@ -62,6 +63,7 @@ export {
   loadScript,
   mapToTree,
   omitFormData,
+  random,
   randomColor,
   getStorage,
   setStorage,
