@@ -9,15 +9,7 @@ import decimal from '../decimal/index';
  * @param {string} b 分母
  * @returns
  */
-interface TObject {
-  [key: string]: string | number;
-}
-
-function ratio (
-  data: TObject,
-  a: number | string,
-  b: number | string,
-): string {
+function ratio(data: Record<string, string | number>, a: number | string, b: number | string): string {
   a = get(data, a, 0);
   b = get(data, b, 1);
   a = +a;

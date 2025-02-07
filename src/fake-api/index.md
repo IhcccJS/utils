@@ -161,7 +161,7 @@ export default {
 ## `FakeApi` 参数
 
 ```ts
-new FakeApi(initialData : TObject[], config : TFakeApiConfig);
+new FakeApi(initialData : Record<string, any>[], config : TFakeApiConfig);
 ```
 
 `initialData` 功能的列表的初始数据，是一个数组。初始化时，内部会自动对每条数据添加对应的 `key`，还有新增时间和更新时间。

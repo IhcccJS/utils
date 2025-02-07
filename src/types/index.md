@@ -46,7 +46,7 @@ function Demo() {
         ，isObject(null)：{isObject(null)}
       </p>
       <p>
-        isFunction(() => {})：{isFunction(() => {})}，isFunction(class {})：
+        {'isFunction(() => {})：'}{isFunction(() => {})}，isFunction(class {})：
         {isFunction(class {})}
       </p>
     </div>

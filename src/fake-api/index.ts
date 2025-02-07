@@ -3,7 +3,6 @@ import { isArray, isFunction } from '../types/index';
 import random from '../random/index';
 import uuid from '../uuid/index';
 import type {
-  TFakeApiConfig,
   TObject,
   TQueryType,
   TQueryTypeObject,
@@ -11,6 +10,8 @@ import type {
   TResponseList,
   TResponseListData,
   TSortFn,
+  TResultType,
+  TFakeApiConfig,
 } from './index.d';
 
 const colorList: TObject = {
@@ -23,16 +24,24 @@ const colorList: TObject = {
   request: '#E91E63',
 };
 
-const rnd = (min: number, max: number): number =>
-  Math.floor(Math.random() * (max - min) + min);
+const rnd = (min: number, max: number): number => Math.floor(Math.random() * (max - min) + min);
 
 const queryTypeFn: TQueryTypeObject = {
   like: (source: any, target: string): boolean => source?.match(target),
   is: (source: any, target: any): boolean => source === target,
 };
 
-const defaultSort: TSortFn = (x, y) =>
-  (new Date(y.updateTime) as any) - (new Date(x.updateTime) as any);
+const defaultResultType: TResultType = {
+  query: (res) => res,
+  create: (res) => res,
+  update: (res) => res,
+  remove: (res) => res,
+  profile: (res) => res,
+  list: (res) => res,
+  request: (res) => res,
+};
+
+const defaultSort: TSortFn = (x, y) => (new Date(y.updateTime) as any) - (new Date(x.updateTime) as any);
 
 const cssStyle = (type: string) => {
   return `color: #fff;padding: 2px 8px 2px 2px;background: ${colorList[type]};border-radius: 2px;`;
@@ -53,6 +62,7 @@ class FakeApi {
   updateTime: string;
   sort: TSortFn;
   timeout: [number, number];
+  resultType: TResultType;
   debug: boolean;
   constructor(defaultData: TObject[], config: TFakeApiConfig) {
     const opts = Object.assign(
@@ -74,6 +84,7 @@ class FakeApi {
     this.updateTime = opts.updateTime;
     this.sort = opts.sort;
     this.timeout = opts.timeout;
+    this.resultType = Object.assign({}, defaultResultType, opts.resultType);
     this.debug = opts.debug;
     this.init(defaultData);
   }
@@ -107,9 +118,7 @@ class FakeApi {
           if (params[key] !== void 0) {
             currentQuery = queryTypeFn[this.queryType[key]];
             if (isFunction(currentQuery)) {
-              _list = _list.filter((item) =>
-                currentQuery(item[key] || '', params[key]),
-              );
+              _list = _list.filter((item) => currentQuery(item[key] || '', params[key]));
             }
           }
         });
@@ -121,20 +130,18 @@ class FakeApi {
       pageNumber = Math.min(pageNumber, Math.ceil(total / pageSize));
       pageNumber = Math.max(pageNumber, 1);
 
-      _list = _list
-        .sort(this.sort)
-        .splice((pageNumber - 1) * pageSize, pageSize);
+      _list = _list.sort(this.sort).splice((pageNumber - 1) * pageSize, pageSize);
 
       await delay(rnd(...this.timeout));
 
-      result = {
+      result = this.resultType.query({
         success: true,
         code: '0',
         data: { total, list: _list },
         message: '查询成功！',
-      };
+      });
     } catch (error) {
-      result = { success: false, code: '-1', message: '查询失败！', error };
+      result = this.resultType.query({ success: false, code: '-1', message: '查询失败！', error });
     }
 
     if (this.debug) {
@@ -168,9 +175,9 @@ class FakeApi {
 
       await delay(rnd(...this.timeout));
 
-      result = { success: true, code: '0', message: '新增成功！' };
+      result = this.resultType.create({ success: true, code: '0', message: '新增成功！', data: newItem });
     } catch (error) {
-      result = { success: false, code: '-1', message: '新增失败！', error };
+      result = this.resultType.create({ success: false, code: '-1', message: '新增失败！', error });
     }
 
     if (this.debug) {
@@ -202,14 +209,19 @@ class FakeApi {
 
         const index = this._list.indexOf(item);
 
-        this._list.splice(index, 1, Object.assign({}, item, newItem));
+        const data = Object.assign({}, item, newItem);
+
+        this._list.splice(index, 1, data);
+
+        await delay(rnd(...this.timeout));
+
+        result = this.resultType.update({ success: true, code: '0', message: '更新成功！', data });
+      } else {
+        await delay(rnd(...this.timeout));
+        result = this.resultType.update({ success: false, code: '1', message: '没有此项！', data: null });
       }
-
-      await delay(rnd(...this.timeout));
-
-      result = { success: true, code: '0', message: '更新成功！' };
     } catch (error) {
-      result = { success: false, code: '-1', message: '更新失败！', error };
+      result = this.resultType.update({ success: false, code: '-1', message: '更新失败！', error });
     }
 
     if (this.debug) {
@@ -232,15 +244,13 @@ class FakeApi {
     let result: TResponseData;
     try {
       const idArray = params[this.key]?.split(',');
-      this._list = this._list.filter(
-        (item) => !idArray.includes(item[this.key]),
-      );
+      this._list = this._list.filter((item) => !idArray.includes(item[this.key]));
 
       await delay(rnd(...this.timeout));
 
-      result = { success: true, code: '0', message: '删除成功！' };
+      result = this.resultType.remove({ success: true, code: '0', message: '删除成功！' });
     } catch (error) {
-      result = { success: false, code: '-1', message: '删除失败！', error };
+      result = this.resultType.remove({ success: false, code: '-1', message: '删除失败！', error });
     }
 
     if (this.debug) {
@@ -260,12 +270,12 @@ class FakeApi {
    * 随机获取一项
    */
   pick() {
-    return random(this._list)
+    return random(this._list);
   }
   /**
    * 获取某一项
    */
-  getItem (params: TObject = {}): TObject {
+  getItem(params: TObject = {}): TObject {
     let _list: any[] = [];
 
     const queryKeys = Object.keys(this.queryType);
@@ -276,9 +286,7 @@ class FakeApi {
         if (params[key] !== void 0) {
           currentQuery = queryTypeFn[this.queryType[key]];
           if (isFunction(currentQuery)) {
-            _list = this._list.filter((item) =>
-              currentQuery(item[key] || '', params[key]),
-            );
+            _list = this._list.filter((item) => currentQuery(item[key] || '', params[key]));
           }
         }
       });
@@ -292,12 +300,11 @@ class FakeApi {
   async profile(params: TObject = {}): Promise<TResponseData> {
     let result: TResponseData;
     try {
-
       await delay(rnd(...this.timeout));
 
       const data = this.getItem(params);
 
-      result =
+      result = this.resultType.profile(
         !data
           ? {
               success: false,
@@ -309,9 +316,10 @@ class FakeApi {
               code: '0',
               data: { ...data },
               message: '查询成功！',
-            };
+            },
+      );
     } catch (error) {
-      result = { success: false, code: '-1', message: '查询失败！', error };
+      result = this.resultType.profile({ success: false, code: '-1', message: '查询失败！', error });
     }
 
     if (this.debug) {
@@ -330,7 +338,7 @@ class FakeApi {
   /**
    * 获取完整列表
    */
-  getList (params: TObject = {}): any[] {
+  getList(params: TObject = {}): any[] {
     let _list = [...this._list];
 
     const queryKeys = Object.keys(this.queryType);
@@ -341,9 +349,7 @@ class FakeApi {
         if (params[key] !== void 0) {
           currentQuery = queryTypeFn[this.queryType[key]];
           if (isFunction(currentQuery)) {
-            _list = _list.filter((item) =>
-              currentQuery(item[key] || '', params[key]),
-            );
+            _list = _list.filter((item) => currentQuery(item[key] || '', params[key]));
           }
         }
       });
@@ -357,14 +363,14 @@ class FakeApi {
     let result: TResponseList;
     try {
       await delay(rnd(...this.timeout));
-      result = {
+      result = this.resultType.list({
         success: true,
         code: '0',
         list: this.getList(params),
         message: '查询成功！',
-      };
+      });
     } catch (error) {
-      result = { success: false, code: '-1', message: '查询失败！', error };
+      result = this.resultType.list({ success: false, code: '-1', message: '查询失败！', error });
     }
 
     if (this.debug) {
@@ -382,9 +388,9 @@ class FakeApi {
     let result: TObject;
     try {
       await delay(rnd(...this.timeout));
-      result = { ...response };
+      result = this.resultType.request({ ...response });
     } catch (error) {
-      result = { success: false, code: '-1', message: '查询失败！', error };
+      result = this.resultType.request({ success: false, code: '-1', message: '查询失败！', error });
     }
 
     if (this.debug) {

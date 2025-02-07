@@ -1,4 +1,4 @@
-export type TObject = { [k: string]: any };
+export type TObject = Record<string, any>;
 
 export type TSortFn = (item1: any, item2: any) => any;
 
@@ -7,16 +7,6 @@ export type TQueryTypeObject = {
 };
 
 export type TQueryType = { [key: string]: 'is' | 'like' };
-
-export interface TFakeApiConfig {
-  key: string;
-  queryType: TqueryType;
-  createTime: string;
-  updateTime: string;
-  sort: TSortFn;
-  timeout: [number, number];
-  debug: boolean;
-}
 
 export type TResponseListData = {
   success: boolean;
@@ -44,3 +34,16 @@ export type TResponseList = {
   message: string;
   error?: any;
 };
+
+export type TResultType = Record<string, (response: TResponseListData | TResponseData | TResponseList | any) => any>;
+
+export interface TFakeApiConfig {
+  key: string;
+  queryType: TqueryType;
+  createTime: string;
+  updateTime: string;
+  sort: TSortFn;
+  timeout: [number, number];
+  resultType: TResultType;
+  debug: boolean;
+}
