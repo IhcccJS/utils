@@ -12,6 +12,7 @@ import { forEachPromised, promiseForEach } from './foreach/index';
 import getBase64 from './get-base64/index';
 import { changePageParams, getServerPath, serverPathReplace, setHeader, toFormData } from './interceptor/index';
 import isLngLat from './is-lng-lat/index';
+import joinString from './join-string/index';
 import jsonStringFormat from './json-string-format/index';
 import { loadCss, loadScript } from './load-resource/index';
 import mapToTree from './map-to-tree/index';
@@ -58,6 +59,7 @@ export {
   setHeader,
   toFormData,
   isLngLat,
+  joinString,
   jsonStringFormat,
   loadCss,
   loadScript,

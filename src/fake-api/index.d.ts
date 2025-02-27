@@ -6,7 +6,11 @@ export type TQueryTypeObject = {
   [key: string]: (source: any, target: any) => boolean;
 };
 
-export type TQueryType = { [key: string]: 'is' | 'like' };
+export type TQueryTypeFn = {
+  [key: string]: (source: any, target: string) => boolean;
+};
+
+export type TQueryType = { [key: string]: keyof TQueryTypeFn };
 
 export type TResponseListData = {
   success: boolean;
@@ -39,7 +43,8 @@ export type TResultType = Record<string, (response: TResponseListData | TRespons
 
 export interface TFakeApiConfig {
   key: string;
-  queryType: TqueryType;
+  queryType: TQueryType;
+  queryTypeFn: TQueryTypeFn;
   createTime: string;
   updateTime: string;
   sort: TSortFn;

@@ -5,6 +5,7 @@ import uuid from '../uuid/index';
 import type {
   TObject,
   TQueryType,
+  TQueryTypeFn,
   TQueryTypeObject,
   TResponseData,
   TResponseList,
@@ -26,7 +27,7 @@ const colorList: TObject = {
 
 const rnd = (min: number, max: number): number => Math.floor(Math.random() * (max - min) + min);
 
-const queryTypeFn: TQueryTypeObject = {
+const defaultDueryTypeFn: TQueryTypeObject = {
   like: (source: any, target: string): boolean => source?.match(target),
   is: (source: any, target: any): boolean => source === target,
 };
@@ -58,6 +59,7 @@ class FakeApi {
   private _list: TObject[];
   key: string;
   queryType: TQueryType;
+  queryTypeFn: TQueryTypeFn;
   createTime: string;
   updateTime: string;
   sort: TSortFn;
@@ -80,6 +82,7 @@ class FakeApi {
     this._list = [];
     this.key = opts.key;
     this.queryType = opts.queryType;
+    this.queryTypeFn = Object.assign({}, defaultDueryTypeFn, opts.queryTypeFn);
     this.createTime = opts.createTime;
     this.updateTime = opts.updateTime;
     this.sort = opts.sort;
@@ -101,6 +104,26 @@ class FakeApi {
       });
     }
   }
+  /** 根据查询条件搜索列表 */
+  search(params: TObject = {}): TObject[] {
+    let _list = [...this._list];
+
+    const queryKeys = Object.keys(this.queryType);
+
+    if (queryKeys.length > 0) {
+      let currentQuery: any = null;
+      queryKeys.forEach((key) => {
+        if (params[key] !== void 0) {
+          currentQuery = this.queryTypeFn[this.queryType[key]];
+          if (isFunction(currentQuery)) {
+            _list = _list.filter((item) => currentQuery(item[key] || '', params[key]));
+          }
+        }
+      });
+    }
+
+    return _list;
+  }
   /**
    * 查询
    */
@@ -108,21 +131,7 @@ class FakeApi {
     let result: TResponseListData;
     try {
       let { pageNumber = 1, pageSize = 10 } = params;
-      let _list = [...this._list];
-
-      const queryKeys = Object.keys(this.queryType);
-
-      if (queryKeys.length > 0) {
-        let currentQuery: any = null;
-        queryKeys.forEach((key) => {
-          if (params[key] !== void 0) {
-            currentQuery = queryTypeFn[this.queryType[key]];
-            if (isFunction(currentQuery)) {
-              _list = _list.filter((item) => currentQuery(item[key] || '', params[key]));
-            }
-          }
-        });
-      }
+      let _list = this.search(params);
 
       const total = _list.length;
 
@@ -267,32 +276,17 @@ class FakeApi {
     return result;
   }
   /**
-   * 随机获取一项
+   * 随机获取查询结果的一项
    */
-  pick() {
-    return random(this._list);
+  pick(params: TObject = {}): TObject {
+    let _list: any[] = this.search(params);
+    return random(_list);
   }
   /**
    * 获取某一项
    */
   getItem(params: TObject = {}): TObject {
-    let _list: any[] = [];
-
-    const queryKeys = Object.keys(this.queryType);
-
-    if (queryKeys.length > 0) {
-      let currentQuery: any = null;
-      queryKeys.forEach((key) => {
-        if (params[key] !== void 0) {
-          currentQuery = queryTypeFn[this.queryType[key]];
-          if (isFunction(currentQuery)) {
-            _list = this._list.filter((item) => currentQuery(item[key] || '', params[key]));
-          }
-        }
-      });
-    }
-
-    return _list[0];
+    return this.search(params)[0];
   }
   /**
    * 详情
@@ -338,23 +332,8 @@ class FakeApi {
   /**
    * 获取完整列表
    */
-  getList(params: TObject = {}): any[] {
-    let _list = [...this._list];
-
-    const queryKeys = Object.keys(this.queryType);
-
-    if (queryKeys.length > 0) {
-      let currentQuery: any = null;
-      queryKeys.forEach((key) => {
-        if (params[key] !== void 0) {
-          currentQuery = queryTypeFn[this.queryType[key]];
-          if (isFunction(currentQuery)) {
-            _list = _list.filter((item) => currentQuery(item[key] || '', params[key]));
-          }
-        }
-      });
-    }
-    return _list;
+  getList(params: TObject = {}): TObject[] {
+    return this.search(params);
   }
   /**
    * 列表
