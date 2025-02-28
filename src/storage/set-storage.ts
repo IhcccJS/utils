@@ -12,7 +12,7 @@ const setStorage = (key: string, value: any, secret?: string) => {
     val = JSON.stringify(val);
   }
 
-  if (secret) {
+  if (!!secret) {
     val = CryptoJS.AES.encrypt(val, secret).toString();
   }
 

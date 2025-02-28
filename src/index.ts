@@ -18,7 +18,7 @@ import { loadCss, loadScript } from './load-resource/index';
 import mapToTree from './map-to-tree/index';
 import omitFormData from './omit-form-data/index';
 import random from './random/index';
-import randomColor from './random-color/index';
+import randomColorHex from './random-color-hex/index';
 import { getStorage, setStorage, removeStorage } from './storage/index';
 import timeFormat from './time-format/index';
 import toFixed from './to-fixed/index';
@@ -35,6 +35,7 @@ import {
 } from './types/index';
 import uuid from './uuid/index';
 
+/** @deprecated ApiMock is deprecated, use `FakeApi` instead. */
 const ApiMock = FakeApi;
 
 export {
@@ -66,7 +67,7 @@ export {
   mapToTree,
   omitFormData,
   random,
-  randomColor,
+  randomColorHex,
   getStorage,
   setStorage,
   removeStorage,

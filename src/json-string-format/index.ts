@@ -1,11 +1,11 @@
 /**
- * 将 socket 发送过来的消息转成 object
- * @param {string} msg 发送过来的消息
+ * 将字符串转成json对象
+ * @param {string} data 字符串
  */
-const jsonStringFormat = (msg: string) => {
-  if (/^\{.*\}$/.test(msg)) {
+const jsonStringFormat = (data: string) => {
+  if (/^\{.*\}$/.test(data)) {
     try {
-      return JSON.parse(msg);
+      return JSON.parse(data);
     } catch (e) {
       return null;
     }

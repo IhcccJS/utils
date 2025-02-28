@@ -9,7 +9,7 @@ import { isString } from '../types/index';
 const getStorage = (key: string, defaultValue: any = '', secret?: string) => {
   let storage = window.localStorage.getItem(key);
 
-  if (secret && storage !== null) {
+  if (!!secret && storage !== null) {
     var bytes = CryptoJS.AES.decrypt(storage as string, secret);
     storage = bytes.toString(CryptoJS.enc.Utf8);
   }
@@ -18,7 +18,7 @@ const getStorage = (key: string, defaultValue: any = '', secret?: string) => {
   try {
     return JSON.parse(storage as string);
   } catch (e) {
-    return isString(defaultValue) ? storage || defaultValue : defaultValue;
+    return isString(defaultValue) ? storage : defaultValue;
   }
 };
 

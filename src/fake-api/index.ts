@@ -170,7 +170,7 @@ class FakeApi {
   /**
    * 新增
    */
-  async create(params: TObject = {}): Promise<TResponseData> {
+  async create(params: TObject = {}, returnResult: boolean = false): Promise<TResponseData> {
     let result: TResponseData;
     try {
       const newItem: TObject = { ...params };
@@ -178,7 +178,7 @@ class FakeApi {
       if (!!this.createTime || !!this.updateTime) time = getCurrentTime();
       if (!!this.createTime) newItem[this.createTime] = time;
       if (!!this.updateTime) newItem[this.updateTime] = time;
-      newItem[this.key] = uuid();
+      if (!newItem[this.key]) newItem[this.key] = uuid();
 
       this._list.unshift(newItem);
 
@@ -213,7 +213,7 @@ class FakeApi {
 
       const item = this._list.find((item) => item[this.key] === key);
 
-      if (item) {
+      if (!!item) {
         if (!!this.updateTime) newItem[this.updateTime] = getCurrentTime();
 
         const index = this._list.indexOf(item);
