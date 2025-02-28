@@ -170,7 +170,7 @@ class FakeApi {
   /**
    * 新增
    */
-  async create(params: TObject = {}, returnResult: boolean = false): Promise<TResponseData> {
+  async create(params: TObject = {}): Promise<TResponseData> {
     let result: TResponseData;
     try {
       const newItem: TObject = { ...params };
