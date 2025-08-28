@@ -10,10 +10,6 @@ export interface TToFormData extends TOptions {
   formData: boolean;
 }
 
-export interface TChangePageParams extends TOptions {
-  useLimit: boolean;
-}
-
 export interface TPageParams {
   pageNumber: number;
   pageSize: number;

@@ -7,6 +7,8 @@
  * 自定义拼接符号
  * joinString(',')('a', 'b', '', null, 'd') => 'a,b,d'
  */
+function joinString(...args: string[]): string;
+function joinString(symbol: string): (...args: string[]) => string;
 function joinString(...args: string[]) {
   function joint(array: string[], symbol = '-') {
     return array.filter((s) => !!s).join(symbol);

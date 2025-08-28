@@ -1,9 +1,9 @@
 /**
- * 延时函数 - promise 版
- * @param {number} ms 延时毫秒
+ * 延时方法 - promise 版
+ * @param {number} ms 延时时间，毫秒
  * @returns
  */
-const delay = (ms: number): Promise<unknown> =>
+const delay = (ms: number): Promise<void> =>
   new Promise((resolve) => {
     setTimeout(resolve, ms || 0);
   });

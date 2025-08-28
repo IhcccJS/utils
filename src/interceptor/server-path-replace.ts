@@ -1,24 +1,23 @@
+type TPathConfig = { key: string; value: string };
 
-type pathConfig = { key: string, value: string };
+type TStoreData = { [key: string]: string };
 
-type storeData = { [key: string]: string };
-
-export function serverPathReplaceInterceptor(serverList: pathConfig[]) {
-  const replaceStore: storeData = {};
+export function serverPathReplaceInterceptor(serverList: TPathConfig[]) {
+  const replaceStore: TStoreData = {};
 
   const getServerFullPath = (prefix: string): string => {
     const server = serverList.find((item) => item.key === prefix);
     return server?.value || '';
-  }
+  };
 
   return function (url: string, config: any) {
     let { serverPath, ...options } = config || {};
 
-    if(url in replaceStore) return { url: replaceStore[url], options };
+    if (url in replaceStore) return { url: replaceStore[url], options };
 
     let prefixUrl = url;
 
-    if(!serverPath) {
+    if (!serverPath) {
       prefixUrl = prefixUrl.replace(/\{\{\w+\}\}/, (val) => {
         serverPath = val.replace(/\{\{|\}\}/g, '');
         return getServerFullPath(serverPath);
@@ -29,7 +28,7 @@ export function serverPathReplaceInterceptor(serverList: pathConfig[]) {
 
     replaceStore[url] = prefixUrl;
 
-    return { url: prefixUrl, options  };
+    return { url: prefixUrl, options };
   };
 }
 

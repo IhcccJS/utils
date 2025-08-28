@@ -1,8 +1,6 @@
 import { isFunction } from '../types/index';
 
-interface TEventsList {
-  [key: string]: Function;
-}
+type TEventsList = Record<string, Function>;
 
 export class EventEmitter {
   /**
@@ -25,14 +23,6 @@ export class EventEmitter {
    * @returns
    */
   names() {
-    return Object.keys(this.eventsList);
-  }
-
-  /**
-   * 返回事件名称列表
-   * @returns
-   */
-  getEventNames() {
     return Object.keys(this.eventsList);
   }
 

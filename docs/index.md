@@ -2,37 +2,24 @@
 title: utils
 hero:
   title: utils
-  description: A JavaScript utility library.
+  description: 一个好用的 JS 方法库.
   actions:
-    - text: 入门
+    - text: 清单
       link: /guide
-features:
-  - title: Hello
-    emoji: 💎
-    description: Put hello description here
-  - title: World
-    emoji: 🌈
-    description: Put world description here
-  - title: '!'
-    emoji: 🚀
-    description: Put ! description here
 ---
 
 ## 安装使用
 
-npm
-```bash
-npm add @ihccc/utils
+:::code-group
+```bash [pnpm]
+pnpm i @ihccc/utils
 ```
 
-yarn
-
-```bash
+```bash [yarn]
 yarn add @ihccc/utils
 ```
 
-pnpm
-
-```bash
-pnpm add @ihccc/utils
+```bash [npm]
+npm i @ihccc/utils
 ```
+:::

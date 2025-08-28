@@ -1,18 +1,24 @@
 import { defineConfig } from 'dumi';
 
+const BASE_PATH = '/ihccc-utils';
+
 export default defineConfig({
-  outputPath: 'dist-utils',
+  define: {
+    BASE_PATH,
+  },
+  outputPath: 'dist',
   hash: true,
-  base: '/', // 根路径
-  publicPath: '/', // 静态文件路径
+  base: `${BASE_PATH}`, // 根路径
+  publicPath: `${BASE_PATH}/`, // 静态文件路径
   resolve: {
     atomDirs: [{ type: 'util', dir: 'src' }],
   },
-  favicons: [],
+  favicons: [`${BASE_PATH}/logo.png`],
   themeConfig: {
     name: '@ihccc/utils',
     title: '@ihccc/utils',
-    logo: '',
+    logo: `${BASE_PATH}/logo.png`,
   },
-  styles: ['section.dumi-default-header-left { width: 300px; }'],
+  styles: [`${BASE_PATH}/reset.css`],
+  mfsu: false,
 });

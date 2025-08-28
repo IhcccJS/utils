@@ -1,6 +1,10 @@
 export type TObject = Record<string, any>;
 
+export type TDataSource = string | TObject[] | (() => Promise<TObject[]>);
+
 export type TSortFn = (item1: any, item2: any) => any;
+
+export type TGetCurrentTime = () => string;
 
 export type TQueryTypeObject = {
   [key: string]: (source: any, target: any) => boolean;
@@ -41,7 +45,7 @@ export type TResponseList = {
 
 export type TResultType = Record<string, (response: TResponseListData | TResponseData | TResponseList | any) => any>;
 
-export interface TFakeApiConfig {
+export type TFakeApiConfig = {
   key: string;
   queryType: TQueryType;
   queryTypeFn: TQueryTypeFn;
@@ -51,4 +55,28 @@ export interface TFakeApiConfig {
   timeout: [number, number];
   resultType: TResultType;
   debug: boolean;
-}
+};
+
+export type TLinkOption = {
+  /** 外键 */
+  foreignKey?: string;
+  /** 别名 */
+  alias?: string;
+  /** 源键 */
+  sourceKey?: string;
+};
+
+export type TLinkOptionItem<T> = {
+  /** 是否多个 */
+  many: boolean;
+  /** 数据表 */
+  source: T;
+  /** 中间表 */
+  // through: T;
+  /** 外键 */
+  foreignKey: string;
+  /** 别名 */
+  alias: string;
+  /** 源键 */
+  sourceKey: string;
+};

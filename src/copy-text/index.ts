@@ -1,4 +1,9 @@
-const copyToClipboard = (text: string): boolean => {
+/**
+ * 复制内容到剪切板，并返回是否成功
+ * @param text 待拷贝的内容
+ * TODO: 使用依赖库实现
+ */
+const copyText = (text: string): boolean => {
   if (window?.navigator?.clipboard?.writeText) {
     window?.navigator?.clipboard?.writeText(text);
     return true;
@@ -17,4 +22,4 @@ const copyToClipboard = (text: string): boolean => {
   return false;
 };
 
-export default copyToClipboard;
+export default copyText;

@@ -1,32 +1,23 @@
 ---
-nav: 方法
+nav:
+  title: 方法
+  order: 2
+title: uuid
+group:
+  title: 普通方法
+  order: 1
 ---
 
-# uuid
+## uuid
 
 生成 id
 
-```jsx
-import uuid from '@ihccc/utils/uuid';
+### API
 
-function Demo() {
-  return (
-    <div>
-      <p>生成 10 个</p>
-      <pre>
-        <code>
-          uuid() * 10:{' '}
-          {JSON.stringify(
-            new Array(10).fill(0).map(() => uuid()),
-            null,
-            2,
-          )}
-        </code>
-      </pre>
-      <p>修改前缀 uuid('key')：{uuid('key')}</p>
-    </div>
-  );
-}
-
-export default Demo;
+```ts
+function uuid (prefix: string = 'uuid'): string;
 ```
+
+| 参数   | 类型     | 默认值 | 描述      |
+| ------ | -------- | ------ | --------- |
+| prefix | `string` | 'uuid' | `id` 前缀 |

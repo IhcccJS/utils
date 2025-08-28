@@ -29,7 +29,7 @@ const defaultConfig = {
  * @member {string} config.symbolOfLabel label 连接符
  * @member {string} config.symbolOfValue value 连接符
  * @member {string} config.sort  排序方法
- * @member {function} config.transform 转换函数，可以借助此方法修改任意节点数据 (item) => item
+ * @member {function} config.transform 转换方法，可以借助此方法修改任意节点数据 (item) => item
  */
 function mapToTree(array: [], config: TMapToTreeConfig): TMapTreeItem[] {
   const {
@@ -58,17 +58,11 @@ function mapToTree(array: [], config: TMapToTreeConfig): TMapTreeItem[] {
     let pathValue: string = item[valueKey];
 
     if (isString(parentLabel)) {
-      pathLabel =
-        parentLabel === ''
-          ? pathLabel
-          : parentLabel + symbolOfLabel + pathLabel;
+      pathLabel = parentLabel === '' ? pathLabel : parentLabel + symbolOfLabel + pathLabel;
     }
 
     if (isString(parentValue)) {
-      pathValue =
-        parentValue === ''
-          ? pathValue
-          : parentValue + symbolOfValue + pathValue;
+      pathValue = parentValue === '' ? pathValue : parentValue + symbolOfValue + pathValue;
     }
 
     const children = mapToTree(array, {

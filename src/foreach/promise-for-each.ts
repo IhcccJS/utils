@@ -16,7 +16,7 @@
  *  console.log('done', res);
  * });
  */
-const promiseForEach = (array: Function[], callback: Function, start: number = 0) => {
+const promiseForEach = (array: Function[], callback: Function, start: number = 0): Promise<any> => {
   return new Promise((resolve, reject) => {
     if (!Array.isArray(array)) return reject();
     const results: any[] = [];

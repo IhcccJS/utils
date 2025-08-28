@@ -1,8 +1,16 @@
 ---
-nav: 方法
+nav:
+  title: 方法
+  order: 2
+title: loadCss & loadScript
+group:
+  title: Promise 方法
+  order: 2
 ---
 
-# loader
+# loadCss & loadScript
+
+加载静态资源，不会重复加载
 
 ```jsx
 import React from'react';
@@ -24,3 +32,14 @@ function Demo () {
 
 export default Demo;
 ```
+
+### API
+
+```ts
+function loadCss (path: string): Promise<unknown> | undefined;
+function loadScript (path: string): Promise<unknown> | undefined;
+```
+
+| 参数 | 类型     | 默认值 | 描述     |
+| ---- | -------- | ------ | -------- |
+| path | `string` | -      | 资源路径 |

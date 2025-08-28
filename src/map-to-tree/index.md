@@ -1,10 +1,16 @@
 ---
-nav: 方法
+nav:
+  title: 方法
+  order: 2
+title: mapToTree
+group:
+  title: 普通方法
+  order: 1
 ---
 
 # mapToTree
 
-一维数据转成树结构数据
+一维数据转成树结构数据；*已弃用，推荐使用 [treeFromArray](/utils/tree-from-array)*
 
 ```jsx
 import mapToTree from './index.ts';

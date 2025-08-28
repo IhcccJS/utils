@@ -1,50 +1,48 @@
 ---
-nav: 方法
+nav:
+  title: 方法
+  order: 2
+title: forEachPromise
+group:
+  title: Promise 方法
+  order: 2
 ---
 
-# forEach
+## forEachPromised
 
-```jsx
-import React from'react';
-import { delay, forEachPromised, promiseForEach } from'@ihccc/utils';
+支持 Promise 的 forEach
 
-function Demo () {
+场景举例：对一个异步方法，按序传入参数进行执行，并返回
 
-  React.useEffect(() => {
-    forEachPromised([1, 2, 3], async (item, index) => {
-      await delay(1000 * (index + 1));
-      console.log('forEachPromised:', item, index);
-      return item + index;
-    }).then((res) => {
-      // res => [1, 3, 5]
-      console.log('forEachPromised done:', res);
-    });
+<code src="./demo/test1.jsx"></code>
 
-    const array = [
-      async () => {
-        await delay(1000);
-        return 1;
-      },
-      async () =>  {
-        await delay(2000);
-        return 2;
-      },
-      async () =>  {
-        await delay(3000);
-        return 3;
-      }
-    ];
-    promiseForEach(array, (item, index) => {
-      console.log('promiseForEach:', item, index);
-      return item + index;
-    }).then((res) => {
-      // res => [1, 3, 5]
-      console.log('promiseForEach done:', res);
-    });
-  }, []);
+### API
 
-  return null;
-}
-
-export default Demo;
+```ts
+function forEachPromised (array: any[], callback: Function, start: number = 0): Promise<any>;
 ```
+
+| 参数     | 类型       | 默认值 | 描述     |
+| -------- | ---------- | ------ | -------- |
+| array    | `any[]`    | -      | 参数列表 |
+| callback | `Function` | `-1`   | 回调方法 |
+| start    | `number`   | `-1`   | 开始位置 |
+
+
+## promiseForEach
+
+Promise 数组遍历回调
+
+<code src="./demo/test2.jsx"></code>
+
+### API
+
+```ts
+function promiseForEach (array: Function[], callback: Function, start: number = 0): Promise<any>
+```
+
+| 参数     | 类型         | 默认值 | 描述         |
+| -------- | ------------ | ------ | ------------ |
+| array    | `Function[]` | -      | 异步方法列表 |
+| callback | `Function`   | `-1`   | 回调方法     |
+| start    | `number`     | `-1`   | 开始位置     |

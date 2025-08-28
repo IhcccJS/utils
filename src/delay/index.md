@@ -1,18 +1,25 @@
 ---
-nav: 方法
+nav:
+  title: 方法
+  order: 2
+title: delay
+group:
+  title: Promise 方法
+  order: 2
 ---
 
-# delay
+## delay
 
-延迟方法 setTimeout 的 Promise 版
+延时方法 - promise 版
 
-```js
-import delay from '@ihccc/utils/delay';
+<code src="./demo/test1.jsx"  ></code>
 
-async function req() {
-  await delay(2000);
-  console.log('两秒钟后打印！');
-}
+### API
 
-req();
+```ts
+function delay (ms: number): Promise<void>;
 ```
+
+| 参数 | 类型     | 默认值 | 描述           |
+| ---- | -------- | ------ | -------------- |
+| ms   | `number` | -      | 延时时间，毫秒 |

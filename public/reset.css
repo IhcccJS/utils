@@ -1,0 +1,8 @@
+section.dumi-default-header-left {
+  width: 300px;
+}
+
+.markdown th,
+.markdown td {
+  word-break: normal;
+}

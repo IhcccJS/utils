@@ -1,6 +1,8 @@
 import { isObject } from '../types/index';
 import { TToFormData } from './index.d';
 
+type TOption = { defaultFormData: boolean };
+
 /**
  * 将普通 Object 数据转换成 FormData 数据
  * @param {object} data 表单数据
@@ -25,8 +27,8 @@ export function transformData(data: any): FormData {
  * @param {object} options 如果配置内 formData 字段为 true 就会转换 data 参数为 FormData 格式
  * @returns
  */
-const toFormData = function (globalOptions: any) {
-  const { defaultFormData } = globalOptions;
+const toFormData = function (option: TOption) {
+  const { defaultFormData } = option;
 
   return (url: string, options: TToFormData) => {
     const { formData = defaultFormData, ...restOptions } = options;

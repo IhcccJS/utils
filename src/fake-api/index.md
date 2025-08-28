@@ -1,5 +1,11 @@
 ---
-nav: 方法
+nav:
+  title: 方法
+  order: 2
+title: FakeApi
+group:
+  title: 类
+  order: 3
 ---
 
 # FakeApi
@@ -161,35 +167,59 @@ export default {
 ## `FakeApi` 参数
 
 ```ts
-new FakeApi(initialData : Record<string, any>[], config : TFakeApiConfig);
+new FakeApi(dataSource: string | TObject[] | FakeApi | (() => Promise<TObject[]>), config : TFakeApiConfig);
 ```
 
-`initialData` 功能的列表的初始数据，是一个数组。初始化时，内部会自动对每条数据添加对应的 `key`，还有新增时间和更新时间。
+`dataSource` 功能列表的初始数据，可以是一个数组、数据文件的路径、方法。初始化时，内部会自动对每条数据添加对应的 `key`，以及新增时间和更新时间。
 
 `config` 配置参数如下：
 
-| 名称       | 类型       | 默认值       | 描述                                                                                                              |
-| ---------- | ---------- | ------------ | ----------------------------------------------------------------------------------------------------------------- |
-| key        | `string`   | `id`         | 主键字段名称                                                                                                      |
-| queryType  | `object`   | `{}`         | 配置查询字段和对应的查询方式，目前支持`is`全匹配，`like` 模糊匹配；eg：`{ name: 'like', state: 'is' }`            |
-| createTime | `string`   | `createTime` | 创建时间字段名称                                                                                                  |
-| updateTime | `string`   | `updateTime` | 更新时间字段名称                                                                                                  |
-| sort       | `function` | `undefined`  | 查询数据时的排序方法，默认按照 `updateTime` 属性降序                                                              |
-| timeout    | `array`    | `[100, 500]` | 请求延迟范围，单位毫秒                                                                                            |
-| debug      | `boolean`  | `true`       | 是否开启调试，如果仅使用`FakeApi`的功能，浏览器 `network`不会有请求的日志，开启此选项，将在控制台打印请求到的数据 |
+| 名称           | 类型       | 默认值       | 描述                                                                                                              |
+| -------------- | ---------- | ------------ | ----------------------------------------------------------------------------------------------------------------- |
+| key            | `string`   | `id`         | 主键字段名称                                                                                                      |
+| name           | `string`   | `表i`        | 表名称                                                                                                            |
+| queryType      | `object`   | `{}`         | 配置查询字段和对应的查询方式，目前支持`is`全匹配，`like` 模糊匹配，`include` 包含                                 |
+| queryTypeFn    | `object`   | `{}`         | 配置自定义查询方式                                                                                                |
+| createTime     | `string`   | `createTime` | 创建时间字段名称                                                                                                  |
+| updateTime     | `string`   | `updateTime` | 更新时间字段名称                                                                                                  |
+| sort           | `function` | `undefined`  | 查询数据时的排序方法，默认按照 `updateTime` 属性降序                                                              |
+| getCurrentTime | `function` | `undefined`  | 数据字段自定义获取时间数据                                                                                        |
+| resultType     | `object`   | `undefined`  | 自定义数据响应格式                                                                                                |
+| lazyLoad       | `boolean`  | `false`      | 数据懒加载，如果初始数据不直接配置数组，就应该设置 `true`                                                         |
+| format         | `function` | `null`       | 数据加载后，可以通过此方法进行数据格式化处理                                                                      |
+| timeout        | `array`    | `[100, 500]` | 请求延迟范围，单位毫秒                                                                                            |
+| debug          | `boolean`  | `true`       | 是否开启调试，如果仅使用`FakeApi`的功能，浏览器 `network`不会有请求的日志，开启此选项，将在控制台打印请求到的数据 |
 
 ## `FakeApi` 实例方法
 
-| 名称       | 参数     | 成功返回值                                                                          | 描述                         |
-| ---------- | -------- | ----------------------------------------------------------------------------------- | ---------------------------- |
-| init       | `array`  | `void 0`                                                                            | 该方法将初始化一组数据到列表 |
-| query      | `object` | `{ success: true, code: '0', data: { total: 0, list: [] }, message: '查询成功！' }` | 模拟查询的功能方法           |
-| create     | `object` | `{ success: true, code: '0', message: '新增成功！' }`                               | 模拟新增的功能方法           |
-| update     | `object` | `{ success: true, code: '0', message: '更新成功！' }`                               | 模拟更新的功能方法           |
-| remove     | `object` | `{ success: true, code: '0', message: '删除成功！' }`                               | 模拟删除的功能方法           |
-| profile    | `object` | `{ success: true, code: '0', data: {}, message: '查询成功！' }`                     | 模拟详情的功能方法           |
-| list       | `-`      | `{ success: true, code: '0', list: [], message: '查询成功！' }`                     | 模拟列表的功能方法           |
-| request    | `object` | `params: object`                                                                    | 参数传什么，就返回什么       |
-| pick       | `-`      | `data`                                                                              | 随机返回列表元素，同步       |
-| getProfile | `object` | `data`                                                                              | 查询数据某一项，同步         |
-| getList    | `object` | `list`                                                                              | 返回数据列表，同步           |
+| 名称        | 参数     | 成功返回值                                                                          | 描述                         |
+| ----------- | -------- | ----------------------------------------------------------------------------------- | ---------------------------- |
+| init        | `array`  | `void 0`                                                                            | 该方法将初始化一组数据到列表 |
+| query       | `object` | `{ success: true, code: '0', data: { total: 0, list: [] }, message: '查询成功！' }` | 查询分页                     |
+| querySync   | `object` | `list`                                                                              | 查询分页，同步               |
+| queryWith   | `object` | `{ success: true, code: '0', data: { total: 0, list: [] }, message: '查询成功！' }` | 查询分页，带关联数据         |
+| create      | `object` | `{ success: true, code: '0', message: '新增成功！' }`                               | 新增数据                     |
+| createSync  | `object` | `list`                                                                              | 新增数据，同步               |
+| createWith  | `object` | `{ success: true, code: '0', message: '新增成功！' }`                               | 新增数据，带关联数据         |
+| update      | `object` | `{ success: true, code: '0', message: '更新成功！' }`                               | 更新数据                     |
+| updateSync  | `object` | `list`                                                                              | 更新数据，同步               |
+| updateWith  | `object` | `{ success: true, code: '0', message: '更新成功！' }`                               | 更新数据，带关联数据         |
+| remove      | `object` | `{ success: true, code: '0', message: '删除成功！' }`                               | 删除数据                     |
+| removeSync  | `object` | `list`                                                                              | 删除数据，同步               |
+| removeWith  | `object` | `{ success: true, code: '0', message: '删除成功！' }`                               | 删除数据，带关联数据         |
+| profile     | `object` | `{ success: true, code: '0', data: {}, message: '查询成功！' }`                     | 查询详情                     |
+| profileSync | `object` | `list`                                                                              | 查询详情，同步               |
+| profileWith | `object` | `{ success: true, code: '0', data: {}, message: '查询成功！' }`                     | 查询详情，带关联数据         |
+| list        | `-`      | `{ success: true, code: '0', list: [], message: '查询成功！' }`                     | 查询列表                     |
+| listSync    | `object` | `list`                                                                              | 查询列表，同步               |
+| listWith    | `object` | `{ success: true, code: '0', list: [], message: '查询成功！' }`                     | 查询列表，带关联数据         |
+| request     | `any`    | `params`                                                                            | 参数传什么，就返回什么       |
+| pick        | `object` | `{}`                                                                                | 随机返回列表元素，同步       |
+| getItem     | `object` | `{}`                                                                                | 查询数据某一项，同步         |
+| getList     | `object` | `list`                                                                              | 返回数据列表，同步           |
+| isEmpty     | `-`      | `boolean`                                                                           | 当前表是否有数据             |
+| lazyInit    | `object` | `void 0`                                                                            | 异步初始化数据，无需手动调用 |
+| hasOne      | `object` | `void 0`                                                                            | 一对一关联表                 |
+| hasMany     | `object` | `void 0`                                                                            | 一对多关联表                 |
+| search      | `object` | `list`                                                                              | 搜索列表                     |
+| getLinked   | `object` | `{ success: true, code: '0', list: [], message: '查询成功！' }`                     | 查询关联表数据，同步         |

@@ -1,57 +1,99 @@
 ---
-nav: 方法
+nav:
+  title: 方法
+  order: 2
+title: types
+group:
+  title: 普通方法
+  order: 1
 ---
 
-# types
+## isNull
 
-数据类型校验
+判断是否为 `null`
 
-```jsx
-import {
-  isNull,
-  isUndefined,
-  isBoolean,
-  isNumber,
-  isString,
-  isArray,
-  isObject,
-  isFunction,
-  isSymbol,
-} from '@ihccc/utils/types';
+### API
 
-function Demo() {
-  return (
-    <div>
-      <p>
-        isNull(null)：{isNull(null)}，isNull(undefined)：{isNull(undefined)}
-      </p>
-      <p>
-        isUndefined(undefined)：{isUndefined(undefined)}，isUndefined(null)：
-        {isUndefined(null)}
-      </p>
-      <p>
-        isBoolean(false)：{isBoolean(false)}，isBoolean(0)：{isBoolean(0)}
-      </p>
-      <p>
-        isNumber(12)：{isNumber(12)}，isNumber(NaN)：{isNumber(NaN)}
-      </p>
-      <p>
-        isString('12')：{isString('12')}，isString(12)：{isString(12)}
-      </p>
-      <p>
-        isArray([])：{isArray([])}，isArray({})：{isArray({})}
-      </p>
-      <p>
-        isObject({})：{isObject({})}，isObject([])：{isObject([])}
-        ，isObject(null)：{isObject(null)}
-      </p>
-      <p>
-        {'isFunction(() => {})：'}{isFunction(() => {})}，isFunction(class {})：
-        {isFunction(class {})}
-      </p>
-    </div>
-  );
-}
+```ts
+function isNull (target: any): boolean;
+```
 
-export default Demo;
+## isUndefined
+
+判断是否为 `undefined`
+
+### API
+
+```ts
+function isUndefined (target: any): boolean;
+```
+
+## isBoolean
+
+判断是否为 `boolean` 类型
+
+### API
+
+```ts
+function isBoolean (target: any): boolean;
+```
+
+## isNumber
+
+判断是否为 `number`
+
+### API
+
+```ts
+function isNumber (target: any): boolean;
+```
+
+## isString
+
+判断是否为 `string`
+
+### API
+
+```ts
+function isString (target: any): boolean;
+```
+
+## isArray
+
+判断是否为 `Array` 类型
+
+### API
+
+```ts
+function isArray (target: any): boolean;
+```
+
+## isObject
+
+判断是否为 `Object` 类型
+
+### API
+
+```ts
+function isObject (target: any): boolean;
+```
+
+## isFunction
+
+判断是否为 `Function` 类型
+
+### API
+
+```ts
+function isFunction (target: any): boolean;
+```
+
+## isSymbol
+
+判断是否为 `Symbol` 类型
+
+### API
+
+```ts
+function isSymbol (target: any): boolean;
 ```
