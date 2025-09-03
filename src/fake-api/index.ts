@@ -1,5 +1,6 @@
 import delay from '../delay/index';
 import random from '../random/index';
+import { isString } from '../types/index';
 import DataTable from './data-table';
 import type { TObject, TDataSource, TResponseData, TResponseList, TResponseListData, TFakeApiConfig } from './type.d';
 
@@ -292,7 +293,8 @@ class FakeApi extends DataTable {
   }
   /** 删除带关联 */
   removeWith(params: TObject = {}) {
-    const idArray = params[this.key]?.split(',');
+    let idArray = params[this.key] || [];
+    if (isString(idArray)) idArray = idArray.split(',');
     const removeItems = this._list.filter((item) => idArray.includes(item[this.key]));
     removeItems.forEach((item) => this.removeItemLinked(item));
     return this._baseRemove(params);

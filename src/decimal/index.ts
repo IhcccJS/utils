@@ -5,7 +5,7 @@
  * @returns
  */
 const decimal = (num: number, precision: number = -1) => {
-  if (!/^\d+.?\d+$/.test(num as unknown as string)) num = 0;
+  if (!/^-?\d+.?\d+$/.test(num as unknown as string)) num = 0;
   num = +num;
   if (precision > -1) {
     const pre = 10 ** precision;

@@ -12,6 +12,10 @@ group:
 
 生成随机指定位数的小数或数组中随机选择一个元素。
 
+## 基础用法
+
+<code src="./demo/base" compact></code>
+
 ### API
 
 ```ts

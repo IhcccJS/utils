@@ -9,7 +9,7 @@ import decimal from '../decimal';
  * @returns 如果 `min` 是数组，则返回该数组中的一个随机元素；
  *          如果 `min` 是数字且 `max` 提供，则返回 `[min, max]` 范围内的随机整数。
  */
-function random<T>(min: number | T[], max?: number, precision?: number): number | T {
+function random<T>(min: number | T[], max?: number, precision: number = 0): number | T {
   if (isArray(min)) return (min as [])[random((min as []).length - 1) as number];
   if (max === void 0 || max === null) return random(0, min as number);
   return decimal(Math.random() * (max - (min as number)) + (min as number), precision);
