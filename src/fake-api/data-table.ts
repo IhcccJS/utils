@@ -17,7 +17,8 @@ import type {
 
 const defaultDueryTypeFn: TQueryTypeObject = {
   like: (source: any, target: string): boolean => source?.match(target),
-  is: (source: any, target: any): boolean => source === target,
+  is: (source: any, target: any): boolean => source == target,
+  equal: (source: any, target: any): boolean => source === target,
   include: (source: any[], target: any): boolean => (source || []).includes(target),
 };
 
