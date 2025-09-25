@@ -6,10 +6,10 @@ import { TSetHeaderOptions } from './index.d';
  * @returns
  */
 const setHeaders = (url: string, options: TSetHeaderOptions) => {
-  const { getHeaders, withHeader = true, ...restOptions } = options;
+  const { withHeader = true, ...restOptions } = options;
 
-  if (withHeader && isFunction(getHeaders)) {
-    restOptions.headers = Object.assign(getHeaders(url, options), restOptions.headers);
+  if (withHeader && isFunction(restOptions.getHeaders)) {
+    restOptions.headers = Object.assign(restOptions.getHeaders(url, options), restOptions.headers);
   }
 
   return { url, options: restOptions };
