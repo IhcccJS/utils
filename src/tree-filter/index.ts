@@ -18,6 +18,7 @@ const defaultConfig = {
 /**
  * 树过滤，返回匹配节点以及祖孙节点
  * @param {array} treeData 树结构数据
+ * @param {function} filterFn 过滤方法，返回 boolean 确定需要的节点
  * @param {object} config 配置
  * @member {string} config.childrenKey 子节点 `key`；默认 `children`
  */
