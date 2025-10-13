@@ -1,6 +1,6 @@
 {
   "name": "@ihccc/utils",
-  "version": "0.1.1-local.2",
+  "version": "0.1.1",
   "description": "A javascript utility library.",
   "license": "MIT",
   "main": "./lib/index.js",
@@ -35,7 +35,7 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "http://127.0.0.1:4873/"
+    "registry": "https://registry.npmjs.org/"
   },
   "authors": [
     "ihccc-cn <lccc10588@gmail.com>"
