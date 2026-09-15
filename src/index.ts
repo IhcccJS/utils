@@ -1,4 +1,6 @@
 import { saveAs } from 'file-saver';
+// @ts-ignore
+import { requestAnimationFrame as raf, cancelAnimationFrame as caf } from 'animation-frame-polyfill';
 import FakeApi from './fake-api/index';
 import arrayReplace from './array-replace/index';
 import awaitWrapper from './await-wrapper/index';
@@ -25,6 +27,7 @@ import joinString from './join-string/index';
 import jsonStringFormat from './json-string-format/index';
 import { loadCss, loadScript } from './load-resource/index';
 import mapToTree from './map-to-tree';
+import executeRaf from './execute-raf/index';
 import treeFilter from './tree-filter';
 import treeFind from './tree-find';
 import treeForEach from './tree-for-each';
@@ -88,6 +91,9 @@ export {
   loadScript,
   /** @deprecated `mapToTree` is deprecated, use `treeFromArray` instead. */
   mapToTree,
+  raf,
+  caf,
+  executeRaf,
   treeFilter,
   treeFind,
   treeForEach,

@@ -33,23 +33,20 @@
       "prettier --parser=typescript --write"
     ]
   },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  },
   "authors": [
     "ihccc-cn <lccc10588@gmail.com>"
   ],
   "dependencies": {
-    "crypto-js": "^4.1.1",
-    "eventemitter3": "^5.0.1",
+    "animation-frame-polyfill": "1.1.0",
+    "crypto-js": "4.1.1",
+    "eventemitter3": "5.0.1",
     "file-saver": "2.0.5",
-    "lodash": "^4.17.21"
+    "lodash": "4.17.21"
   },
   "devDependencies": {
     "@babel/runtime": "^7.22.6",
-    "@types/crypto-js": "^4.1.1",
-    "@types/file-saver": "^2.0.7",
+    "@types/crypto-js": "4.1.1",
+    "@types/file-saver": "2.0.5",
     "@types/lodash": "^4.14.191",
     "@umijs/lint": "^4.0.0",
     "dumi": "^2.4.13",
