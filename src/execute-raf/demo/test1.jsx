@@ -3,9 +3,9 @@ import executeRaf from '../index';
 
 function Demo() {
   const [progress, setProgress] = React.useState(0);
-  const [status, setStatus] = React.useState<'idle' | 'running' | 'done' | 'cancelled'>('idle');
-  const [logs, setLogs] = React.useState<string[]>([]);
-  const executorRef = React.useRef<{ cancel: () => void } | null>(null);
+  const [status, setStatus] = React.useState('idle');
+  const [logs, setLogs] = React.useState([]);
+  const executorRef = React.useRef(null);
 
   const handleStart = () => {
     setProgress(0);
@@ -29,7 +29,7 @@ function Demo() {
           setLogs((logs) => [...logs.slice(-5), `已处理 ${index + 1} 项`]);
         }
       },
-      { frameTime: 8, minItemsPerFrame: 50 }
+      { frameTime: 8, minItemsPerFrame: 50 },
     );
 
     executorRef.current = { cancel };
